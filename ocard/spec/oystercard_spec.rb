@@ -13,18 +13,14 @@ describe Oystercard do
       expect{ subject.top_up(90) }.to raise_error("Transaction Exceeds Limit!")
     end
   end
-  describe '#deduct' do
-    it 'can take money off for transactions' do
-      expect(subject.deduct(10)).to eq(subject.balance)
-    end
-  end
+
   describe '#touch_in' do
     it 'can touch in' do
       expect(subject.touch_in).to be true
     end
 
     it 'can check to see if user has touched in' do
-      subject.deduct(15)
+      subject.touch_out(15)
       expect{ subject.touch_in }.to raise_error "Insufficient balance"
     end
   end
@@ -43,9 +39,8 @@ describe Oystercard do
     end
 
     it 'correctly charges the user' do
-      subject.top_up(20)
       subject.touch_in
-      expect{ subject.touch_out(5) }.to change{@balance}.by(5)
+      expect{ subject.touch_out(5) }.to change{subject.balance}.by(-5)
     end
   end
 end
