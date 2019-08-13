@@ -38,14 +38,14 @@ describe Oystercard do
   describe '#touch_out' do
     it 'can touch out' do
       subject.touch_in
-      subject.touch_out(cost)
+      subject.touch_out(5)
       expect(subject).not_to be(:in_use)
     end
 
     it 'correctly charges the user' do
+      subject.top_up(20)
       subject.touch_in
-      subject.touch_out(cost)
-      expect{ subject.touch_out(5)}.to change{@balance}.by(10)
+      expect{ subject.touch_out(5) }.to change{@balance}.by(5)
     end
   end
 end

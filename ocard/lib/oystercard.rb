@@ -8,8 +8,8 @@ class Oystercard
     fail "Transaction Exceeds Limit!" if @balance + topup >= 90
     @balance = @balance + topup
   end
-  def deduct(remove)
-    @balance = @balance - remove
+  def deduct(cost)
+     @balance = @balance - cost
   end
   def touch_in
     fail "Insufficient balance" if balance < 1
@@ -20,6 +20,6 @@ class Oystercard
   end
   def touch_out(cost)
     @in_use = false
-    @balance = @balance - cost
+    deduct(cost)
   end
 end
